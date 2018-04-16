@@ -1,0 +1,7 @@
+{
+  "name": "md-hot-place",
+  "private": true,
+  "dependencies": {
+    "jquery-ujs": "^1.2.2"
+  }
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TP PROJECT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        
+<%= javascript_include_tag "application" %>
+<%= csrf_meta_tags %>
+
+  <style>
+  footer {
+    background-color: #F5E697;
+		width: 100%;
+		height: 10%;
+		<!--background-color: #555;-->
+    	padding: 10px 0;
+		text-align: center;
+		<!--color: white;-->
+		<!--font-size: 20%;-->
+	}
+	.hrhr{
+		border: 1px solid #ccc; 
+	}
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: orange;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
+  </style>
+
+<script>
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+    } else {
+        document.getElementById("myBtn").style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+</script>  
+  </head>
+<body>
+
+
+
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/">MD HOT PLACE</a>
+    </div>
+
+    <ul class="nav navbar-nav">
+      <li id="cate_food"><a href="/hplaces/food">맛집</a></li>
+      <!--class active 화면 바뀔때마다 바꿀 수 있게 바꿔주세요!!!!!!! -lucy -->
+      <!-- 바꿔놨습니다. 한번 날라갔습니다. merge 할때 조심 부탁드려요. -lucy -->
+      <li id="cate_cafe"><a href="/hplaces/cafe">카페</a></li>
+      <li id="cate_culture"><a href="/hplaces/culture">문화</a></li>
+    <%if user2_signed_in?%>
+      <%if current_user2.level=='admin'%>
+        <li><a href="/hplaces/new">장소추가</a></li>
+      <%end %>  
+    <%end%>
+      
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <%if user2_signed_in?%>
+      <%if current_user2.level=='admin'%>
+        <li><a href="/users/memberpage">회원정보관리</a></li>
+        <li><a href="/user2s/sign_out" data-method="delete"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      <%end %>  
+      <%if current_user2.level=='user'%>
+        <li><a href="/users/mybookmark">즐겨찾기</a></li>
+        <li><a href="/users/mypage">mypage</a></li>
+        <li><a href="/user2s/sign_out" data-method="delete"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      <%end%>
+      <%else%>
+        <li><a href="/user2s/sign_in"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="/user2s/sign_up"><span class="glyphicon glyphicon-log-up"></span> 회원가입</a></li>
+      <%end%>
+      </ul>
+    </div>
+  </div>
+</nav>
+<% flash.each do |key, value| %>
+    <% if value.class == Array %>
+        <div class="<%= flash_class(key) %>">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <% value.each do |message| %>
+                <%= message %>
+                </br>
+            <% end %>
+        </div>
+    <% else %>
+      <%if value.strip=="Invalid Login or password.".strip
+        value=" 아이디, 이메일 또는 패스워드를 확인하세요. "
+        elsif user2_signed_in?&&value.strip=="Signed in successfully.".strip
+        value= current_user2.user_name.to_s+"님 환영합니다. "
+        elsif value.strip=="Signed out successfully.".strip
+        value= "로그아웃 되었습니다."
+      end%>
+    <script>
+      alert('<%= value %>');
+    </script>
+    <% end %>
+<% end %>
+    <%= yield %>
+
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<footer class="text-center">
+  <br>
+  <p>(주)MD HOT PLACE 서울특별시 중구 저동1가 삼일대로 343 Tel.02-0000-0000</p>
+  <p>Copyright &copy; MD HOT PLACE</p>
+  <br>
+</footer>
+
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,51 @@
+<div class="container">
+<h2>즐겨찾기 목록</h1>
+<%if user2_signed_in?%>
+<style type="text/css">
+.tbl{
+table-layout: fixed;
+}
+</style>
+
+<style>
+.star1{font-size: 1.5em; color: orange;}
+.star2{font-size: 1.5em; color: silver;}
+</style>
+
+<%if @mybookmarks.length>0%>
+    <table class="table table-hover tbl">
+    <thead>
+    <tr><th>게시물 번호</th><th>분류</th><th>가게 명</th><th>즐찾취소</th></tr>
+    </thead>
+    <tbody>
+<%@mybookmarks.each do |b|%>
+
+<%if b.place_delete=="yes"%>
+      <tr class="deleteline" onClick="alert('MD Hot Place에서 제외된 가게 입니다')">
+      <td><%=b.hplace_id%></td>
+      <td><%=b.category%></td>
+      <td><%=b.place_name%></td>
+      
+      </tr>
+
+<%else%>
+    <tr>
+    <td style="cursor:pointer" onclick="location.href='/hplaces/<%=b.hplace_id%>'"><%=b.hplace_id%></td>
+    <td style="cursor:pointer" onclick="location.href='/hplaces/<%=b.hplace_id%>'"><%=b.category%></td>
+    <td style="cursor:pointer" onclick="location.href='/hplaces/<%=b.hplace_id%>'"><%=b.place_name%></td>
+    <td><a class="btn" role="button" onclick="location.href='/bookmarks/destroy/<%=current_user2.id%>/<%=b.hplace_id%>?click=listdes'" name="uid" >삭제</a></td>
+    </tr>
+<%end%>
+<%end%>
+    </tbody>
+    </table>
+<%= will_paginate @mybookmarks, renderer: BootstrapPagination::Rails %>
+<%else%>
+<h4>즐겨찾는 가게가 없습니다.</h4>
+<%end%>
+
+</div>
+<%else%>
+<h1> 로그인을 하세요 </h1>
+<%end%>
+</div>

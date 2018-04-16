@@ -1,0 +1,312 @@
+
+<script type="text/javascript">
+$(function(){
+  var cate_food = $("#cate_food");
+  var cate_cafe = $("#cate_cafe");
+  var cate_culture = $("#cate_culture");
+  cate_cafe.addClass('active');
+  cate_culture.removeClass('active');
+  cate_food.removeClass('active');
+});
+</script>
+<script>
+function myFunction() {
+    var x = document.getElementById("list_selct").value;
+    location.href = "/hplaces/cafe?order_by="+x;
+}
+</script>
+<style>
+.star1{font-size: 2em; color: silver;}
+.star2{font-size: 2em; color: orange;}
+.star3{font-size: 2.7em; color: #FCD201;}
+.star4{font-size: 2.7em; color: #828180;}
+</style>
+
+<div class="container">
+<h1>cafe</h1><br>
+</div>
+<div class="row">
+<div class="col-md-4"></div>
+<div class="col-md-4">
+ <div class="row">
+  <form> 
+    <div class="col-sm-3">
+      <select class="form-control" id="select" name="select">
+        <option value="*" selected="selected"> 전체 보기 </option>
+        <option value="place_name" > 가게 이름 </option>
+        <option value="place_address" > 주소 </option>
+        <option value="place_call" > 번호 </option> 
+        <option value="intro" > 맛집 분류 </option> 
+      </select>
+    </div>
+    <div class="input-group col-sm-9">
+      <input type="text" class="form-control" placeholder="전체 보기는 입력 없이 검색을 눌러주세요. " name="search">
+      <div class="input-group-btn">
+        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+<div class="col-md-4"></div>
+</div>
+<br>
+<div class="container">
+<div class="col-md-10"></div>
+<div class="col-md-2">
+      <select class="form-control" id="list_selct" name="list_selct"  onchange="myFunction()">
+      <%if params[:order_by]=="avg_evalu"%>
+        <option value="avg_evalu" selected="selected"> 별점순 </option>
+      <%else%>
+        <option value="avg_evalu"> 별점순 </option>
+      <%end%>
+      <%if params[:order_by]=="reviewcount"%>
+        <option value="reviewcount" selected="selected"> 리뷰순 </option>
+      <%else%>
+        <option value="reviewcount"> 리뷰순 </option>
+      <%end%>
+      <%if params[:order_by]=="views"%>
+        <option value="views" selected="selected"> 조회순 </option>
+      <%else%>
+        <option value="views"> 조회순 </option>
+      <%end%>
+      <%if params[:order_by]=="created_at"%>
+        <option value="created_at" selected="selected"> 최신순 </option>
+      <%else%>
+        <option value="created_at"> 최신순 </option>
+      <%end%>
+      </select>
+</div>
+</div>
+<br>
+<div class="container">
+<%if params[:select]&&params[:select]!='*'%>
+<%if @find.length!=0%>
+카페<br>
+<table class="table table-hover">
+  <tbody>
+    <%@find.each do |p|%>
+    <tr>
+        <td > <%if user2_signed_in?%>
+      <%@c=0%>
+      <%@cafbook.each do |c| %>
+        <%if c.hplace_id == p.id%>
+          <span class='glyphicon glyphicon-star star3'onclick="location.href='/bookmarks/destroy/<%=current_user2.id%>/<%=p.id%>?click=cafdes&page=<%=params[:page]%>&order_by=<%=params[:order_by]%>&search=<%=params[:search]%>&select=<%=params[:select]%>'" name="uid" ></span>
+          <%@c=1
+          break%>
+        <%end%>
+      <%end%>
+      <%if @c==0%>
+        <span class='glyphicon glyphicon-star-empty star4' onclick="location.href='/bookmarks/create/<%=current_user2.id%>/<%=p.id%>?click=cafbookmark&page=<%=params[:page]%>&order_by=<%=params[:order_by]%>&select=<%=params[:select]%>&search=<%=params[:search]%>'" name="uid"></span>
+      <%end%>
+    <%end%></td>
+    <td style="cursor:pointer" onclick="location.href='/hplaces/<%=p.id%>?order_by=<%=params[:order_by]%>&page=<%=params[:page]%>'">
+        <div class="row">
+          <div class="col-sm-4">
+            <%if p.place_photo1.to_s!=''%>
+            <img src="<%=p.place_photo1.url%>" class="img-responsive" height="200" width="200" alt="<%=p.place_photo1.url%>">
+            <%else%>
+            <div height="200" width="200" >empty</div>
+            <%end%>
+          </div>
+          <div class="col-sm-8">
+   
+            <h3 ><%=p.place_name%></h3>
+
+           <%if p.avg_evalu.to_i  < 1%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 2%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 3%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 4%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 5%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%><br>
+            < <%=p.intro%> ><br>
+            <%=p.place_address%><br>
+            리뷰 : <%=p.reviewcount%> &nbsp&nbsp&nbsp 조회수 : <%=p.views%> &nbsp&nbsp&nbsp 등록일 : <%=p.created_at.strftime("%Y-%m-%d")%>
+          </div>
+        </div>
+        </td>
+    </tr>
+    <%end%>
+  </tbody>
+ </table>
+<%= will_paginate @find, renderer: BootstrapPagination::Rails %>
+</div>
+<%else%>
+검색 결과가 없습니다.
+<%end%>
+
+<%else%>
+
+<%if params[:page]=='1'||params[:page].nil?||params[:page]=='' %>
+<%if @adcafes.length!=0%>
+프리미엄 카페 (ad)<br>
+<table class="table table-hover">
+  <tbody>
+    <%@adcafes.each do |p|%>
+    <tr>
+
+        <td >
+      <%if user2_signed_in?%>
+      <%@c=0%>
+      <%@cafbook.each do |c| %>
+        <%if c.hplace_id == p.id%>
+          <span class='glyphicon glyphicon-star star3'onclick="location.href='/bookmarks/destroy/<%=current_user2.id%>/<%=p.id%>?click=cafdes&page=<%=params[:page]%>&order_by=<%=params[:order_by]%>'" name="uid" ></span>
+          <%@c=1
+          break%>
+        <%end%>
+      <%end%>
+      <%if @c==0%>
+        <span class='glyphicon glyphicon-star-empty star4' onclick="location.href='/bookmarks/create/<%=current_user2.id%>/<%=p.id%>?click=cafbookmark&page=<%=params[:page]%>&order_by=<%=params[:order_by]%>'" name="uid"></span>
+      <%end%>
+    <%end%></td>
+<td  style="cursor:pointer" onclick="location.href='/hplaces/<%=p.id%>'">
+        <div class="row">
+          <div class="col-sm-4">
+            <%if p.place_photo1.to_s!=''%>
+            <img src="<%=p.place_photo1.url%>" class="img-responsive" height="200" width="200" alt="<%=p.place_photo1.url%>">
+            <%else%>
+            <div height="200" width="200" >empty</div>
+            <%end%>
+          </div>
+          <div class="col-sm-8">    
+
+            <h3><%=p.place_name%></h3>
+
+           <%if p.avg_evalu.to_i  < 1%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 2%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 3%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 4%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 5%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%><br>
+            < <%=p.intro%> ><br>
+            <%=p.place_address%><br>
+            리뷰 : <%=p.reviewcount%> &nbsp&nbsp&nbsp 조회수 : <%=p.views%> &nbsp&nbsp&nbsp 등록일 : <%=p.created_at.strftime("%Y-%m-%d")%>
+          </div>
+        </div>
+        </td>
+    </tr>
+    <%end%>
+  </tbody>
+ </table>
+ <br>
+ <hr>
+ <hr>
+ <br>
+ <%end%>
+ <%end%>
+<!--핫 표시 추가해주면 좋겠다 -lucy-->
+<%if @nonadcafes.length!=0%>
+카페<br>
+<table class="table table-hover">
+  <tbody>
+    <%@nonadcafes.each do |p|%>
+    <tr>
+    <!--colspan="10"-->
+        <td>
+        <%if user2_signed_in?%>
+      <%@c=0%>
+      <%@cafbook.each do |c| %>
+        <%if c.hplace_id == p.id%>
+          <span class='glyphicon glyphicon-star star3'onclick="location.href='/bookmarks/destroy/<%=current_user2.id%>/<%=p.id%>?click=cafdes&page=<%=params[:page]%>&order_by=<%=params[:order_by]%>'" name="uid" ></span>
+          <%@c=1
+          break%>
+        <%end%>
+      <%end%>
+      <%if @c==0%>
+        <span class='glyphicon glyphicon-star-empty star4' onclick="location.href='/bookmarks/create/<%=current_user2.id%>/<%=p.id%>?click=cafbookmark&page=<%=params[:page]%>&order_by=<%=params[:order_by]%>'" name="uid"></span>
+      <%end%>
+    <%end%></td>
+    <td style="cursor:pointer" onclick="location.href='/hplaces/<%=p.id%>'" >
+
+        <div class="row">
+          <div class="col-sm-4">
+            <%if p.place_photo1.to_s!=''%>
+            <img src="<%=p.place_photo1.url%>" class="img-responsive" height="200" width="200" alt="<%=p.place_photo1.url%>">
+            <%else%>
+            <div height="200" width="200" >empty</div>
+            <%end%>
+          </div>
+          <div class="col-sm-8"> 
+
+            <h3><%=p.place_name%></h3>
+
+           <%if p.avg_evalu.to_i  < 1%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 2%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 3%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 4%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%>
+      <%if p.avg_evalu.to_i  < 5%>
+      <span class='glyphicon glyphicon-star-empty star1'></span>
+      <%else%>
+      <span class='glyphicon glyphicon-star star2'></span>
+      <%end%><br>
+            < <%=p.intro%> ><br>
+            <%=p.place_address%><br>
+            리뷰 : <%=p.reviewcount%> &nbsp&nbsp&nbsp 조회수 : <%=p.views%> &nbsp&nbsp&nbsp 등록일 : <%=p.created_at.strftime("%Y-%m-%d")%>
+          </div>
+        </div>
+        </td>
+    </tr>
+    <%end%>
+  </tbody>
+ </table>
+<%= will_paginate @nonadcafes, renderer: BootstrapPagination::Rails %>
+</div>
+
+<%else%>
+추천 카페가 없습니다.
+<%end%>
+<%end%>

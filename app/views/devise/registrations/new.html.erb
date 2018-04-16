@@ -1,0 +1,128 @@
+<script type="text/javascript">
+    function sendIt() {
+        var email = document.f.email.value;
+        var regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+      
+        //아이디 입력여부 검사
+        if (f.user_id.value == "") {
+            alert("아이디를 입력하지 않았습니다.")
+            f.user_id.focus()
+            return false;
+        }
+        
+        
+        //아이디 유효성 검사 (영문소문자, 숫자만 허용)
+        for (i = 0; i < document.f.user_id.value.length; i++) {
+            ch = document.f.user_id.value.charAt(i)
+            if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')) {
+                alert("아이디는 대소문자, 숫자만 입력가능합니다.")
+                document.f.user_id.focus()
+                document.f.user_id.select()
+                return false;
+            }
+        }
+
+        if (document.f.user_id.value.length<4 || document.f.user_id.value.length>12) {
+            alert("아이디를 4~12자까지 입력해주세요.")
+            document.f.user_id.focus()
+            document.f.user_id.select()
+            return false;
+        }
+        
+        //아이디에 공백 사용하지 않기
+        if(document.f.user_id.value.indexOf(" ") >= 0) {
+            alert("아이디에 공백을 사용할 수 없습니다.")
+            document.f.user_id.focus()
+            document.f.user_id.select()
+            return false;
+        }
+
+        else if(document.f.email.value == "") {
+            alert("이메일을 입력하지 않았습니다.")
+            document.f.email.focus()
+            return false;
+        }
+        if (regex.test(email) == false) {
+            alert("잘못된 이메일 형식입니다.");
+            document.f.email.value=""
+            document.f.email.focus()
+            return false;
+        }
+
+        //비밀번호 입력여부 체크
+        else if(document.f.password.value == "") {
+            alert("비밀번호를 입력하지 않았습니다.")
+            document.f.password.focus()
+            return false;
+        }
+        else if(document.f.password.value.length<6){
+            alert("비밀번호를 6자 이상 입력해주십시오.")
+            document.f.password.focus()
+            return false;
+        }
+        else if(f.password.value == f.user_id.value) {
+            alert("아이디와 비밀번호가 같습니다.")
+            document.f.password.focus()
+            return false;
+        }
+ 
+        //비밀번호와 비밀번호 확인 일치여부 체크
+        else if(document.f.password.value != document.f.password_confirmation.value) {
+            alert("비밀번호가 일치하지 않습니다")
+            document.f.password.value = ""
+            document.f.password.focus()
+            return false;
+        }
+ 
+
+        else if(document.f.user_name.value == "") {
+            alert("이름을 입력하지 않았습니다.")
+            document.f.user_name.focus()
+            return false;
+        }
+        else if(document.f.user_name.value.length<3){
+            alert("이름을 3자 이상 입력해주십시오.")
+            document.f.user_name.focus()
+            return false;
+        }
+        else if(document.f.phone.value == ""){
+            alert("핸드폰번호를 입력하지 않았습니다.")
+            document.f.user_name.focus()
+            return false;
+            
+        }
+        else if(document.f.phone.value.length<11){
+            alert("핸드폰번호를 010-0000-0000으로 입력해주십시오.")
+            document.f.phone.focus()
+            return false;
+        }
+        else{
+            document.f.submit();
+        }
+    }
+</script>
+<div class="container">
+<h2>Sign up</h2>
+<form method="POST" action="/user2s" accept-charset="UTF-8" name="f">
+<input type="hidden" class="form-control" id="user_delete" placeholder="Enter user_delete" name="user2[user_delete]" value="no">
+<input type="hidden" class="form-control" id="level" placeholder="Enter level" name="user2[level]" value="user">
+<table class="table">
+  <tbody>
+    <tr><th> 아이디 </td>
+        <td><input type="text" class="form-control" id="user_id" placeholder="" name="user2[user_id]"></td></tr>
+    <tr><th> 이메일 </td>
+        <td><input type="email" class="form-control" id="email" placeholder="typroject@stayes.com" name="user2[email]"></td></tr>
+    <tr><th> 비밀번호 </td>
+        <td><input type="password" class="form-control" id="password" placeholder="" name="user2[password]"></td></tr>
+    <tr><th> 비밀번호 확인 </td>
+        <td><input type="password" class="form-control" id="password_confirmation" placeholder="비밀번호 확인" name="user2[password_confirmation]"></td></tr>
+    <tr><th> 이름 </td>
+        <td><input type="text" class="form-control" id="user_name" placeholder="" name="user2[user_name]"></td></tr>
+    <tr><th> 핸드폰 </td>
+        <td><input type="text" class="form-control" id="phone" placeholder="010-0000-0000" name="user2[phone]"></td></tr>
+    <tr><td></td><td><input class="btn btn-default" onclick="sendIt();" value="Submit">
+    <%= render "devise/shared/links" %></td></tr>
+  </tbody>
+</table>
+</form>
+</div>

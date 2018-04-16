@@ -1,0 +1,44 @@
+        <script>
+          function destroy_user() {
+            if (confirm('정말 탈퇴하시겠습니까? 탈퇴 후, 같은 아이디와 이메일로 회원가입이 불가합니다.' )) {
+              // 로그인페이지로 이동
+              location.href='/users/userdelete?id=<%=@myinfo.id%>';
+            } else {
+              // Do nothing!
+            }
+	          //alert("로그인을 하세요.");
+          } 
+        </script>
+<div class="container">
+<%if !@myinfo.nil?%>
+<h1 class="text-center"> 내 정보 보기 </h1><br><br>
+<div class="col-sm-3">
+  <ul class="nav nav-pills nav-stacked">
+    <li class="active"><a href="#">마이페이지</a></li>
+    <li><a href="/users/mycomment"> 내 코멘트 목록 </a></li>
+
+  </ul>
+</div>
+<div class="col-sm-9">
+    <table class="table table-striped">
+    <tbody>
+      <tr><td>이메일</td><td><%=@myinfo.email%></td></tr>
+      <tr><td>아이디</td><td><%=@myinfo.user_id%></td></tr>
+      <tr><td>이름</td><td><%=@myinfo.user_name%></td></tr>
+      <tr><td>핸드폰</td><td><%=@myinfo.phone%></td></tr>
+      <tr>
+      <td colspan="1" class="text-left"><button type="button" class="btn btn-primary" 
+          onclick="location.href='/users/<%=@myinfo.id%>/mypage_edit'" method="post">회원정보수정</button>
+    
+      <button type="button" class="btn btn-primary" 
+          onclick="location.href='/user2s/edit'" method="post">비밀번호변경</button>
+      <button type="button" class="btn btn-danger" onclick="destroy_user();" >탈퇴</button>
+      <td></td></tr>
+
+    </tbody>
+    </table>
+</div>
+<%else%>
+<h1> 로그인을 하세요 </h1>
+<%end%>
+</div>

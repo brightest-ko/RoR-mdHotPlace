@@ -1,0 +1,23 @@
+<div class="container">
+<div class="col-sm-9">
+<h1>회원정보</h1>
+<table class="table table-striped">
+    <tbody>
+      <tr><td>이름</td><td><%=@detail.user_name%></td></tr>  
+      <tr><td>이메일</td><td><%=@detail.email%></td></tr>
+      <tr><td>아이디</td><td><%=@detail.user_id%></td></tr>
+      <tr><td>핸드폰</td><td><%=@detail.phone%></td></tr>
+      <tr><td>레벨</td><td><%=@detail.level%></td></tr>
+      <tr><td>탈퇴</td><td><%=@detail.user_delete%></td></tr>
+     
+    </tbody>
+</table>
+<button type="button" class="btn btn-primary" style="cursor:pointer" onclick="location.href='/users/<%=@detail.id%>/edit?page=<%=@page%>'" >정보수정</button>
+<a data-confirm="정말 영구탈퇴처리하시겠습니까?" data-remote="true" data-method="delete"  href="/users/<%=@detail.id%>?page=<%=@page%>" class="btn btn-primary" role="button">영구탈퇴</a>
+<%if params[:select]%>
+<a class="btn btn-info pull-right" role="button" onclick="location.href='/users/memberpage?page=<%=@page%>&search=<%=params[:search]%>&select=<%=params[:select]%>'">뒤로가기</a>
+<%else%>
+<a class="btn btn-info pull-right" role="button" onclick="location.href='/users/memberpage?page=<%=@page%>'">뒤로가기</a>
+<%end%>
+</div>    
+</div>

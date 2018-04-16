@@ -1,0 +1,85 @@
+<script type="text/javascript">
+    function sendIt() { 
+        if(document.f.user_name.value == "") {
+            alert("이름을 입력하지 않았습니다.")
+            document.f.user_name.focus()
+            return false;
+        }
+        else if(document.f.user_name.value.length<2){
+            alert("이름을 2자 이상 입력해주십시오.")
+            document.f.user_name.focus()
+            return false;
+        }
+        else if(document.f.phone.value == ""){
+            alert("핸드폰번호를 입력하지 않았습니다.")
+            document.f.user_name.focus()
+            return false;
+            
+        }
+        else if(document.f.ulevel.value == ""){
+            alert("레벨을 입력하지 않았습니다.")
+            document.f.user_name.focus()
+            return false;
+            
+        }
+        else if(document.f.udelete.value == ""){
+            alert("탈퇴여부를 입력하지 않았습니다.")
+            document.f.delete.focus()
+            return false;
+            
+        }
+        else{
+            alert("수정완료.")
+            document.f.submit();
+        }
+    }
+</script>
+
+
+<div class="container">
+<h1>관리자회원수정</h1>
+<form action="/users" method="post" authenticity_token ="true" name="f">
+<table class="table">
+  <tbody>
+    <tr><th> 아이디 </td>
+        <td><input class="form-control" id="disabledInput" type="text" name="uid" value="<%=@user.user_id%>" disabled></td></tr>
+    <tr><th> 이메일 </td>
+        <td><input class="form-control" id="disabledInput" type="text" name="uemail" value="<%=@user.email%>" disabled></td></tr>
+    <tr><th> 이름 </td>
+        <td> <input class="form-control" id="user_name" name="uuser_name" type="text" value="<%=@user.user_name%>"></td></tr>
+    <tr><th> 핸드폰 </td>
+        <td><input class="form-control" id="phone" name="uphone"type="text" value="<%=@user.phone%>">
+</td></tr>
+
+<tr><th> 레벨 </td>
+<td><div class="row">
+    
+    <div class="col-sm-10">
+    <label class="radio-inline">
+      <input type="radio" name="ulevel" value="admin">admin
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="ulevel" value="user">user
+    </label> 
+       </div>
+  </div></td></tr>
+  
+<tr><th> 탈퇴 </td>
+<td><div class="row">
+    
+    <div class="col-sm-10">
+    <label class="radio-inline">
+      <input type="radio" name="udelete" value="destroy">destroy
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="udelete" value="no">no
+    </label> 
+       </div>
+  </div></td></tr>
+  
+        <tr><td></td><td><input class="btn btn-default" onclick="sendIt();" value="수정완료">
+    
+</tbody>
+</table>
+</form>
+</div>

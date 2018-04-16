@@ -1,0 +1,45 @@
+<div class="container">
+
+    <h1 class="text-center"> 내 정보 수정 </h1><br><br>
+        <div class="col-sm-3">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="/users/mypage">마이페이지</a></li>
+            <li><a href="/users/mycomment"> 내 코멘트 목록 </a></li>
+        </ul>
+        </div>
+    <div class="col-sm-9">    
+    <form method="POST" action="/users/mypage/<%=@myinfo.id%>" accept-charset="UTF-8">
+
+    <div class="form-group">
+    <label for="disabledInput" class="col-sm-2 control-label">이름</label>
+    <div class="col-sm-10">
+      <input class="form-control" id="disabledInput" type="text" placeholder="<%=@myinfo.user_name%>" readonly>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <label for="disabledInput" class="col-sm-2 control-label">이메일</label>
+    <div class="col-sm-10">
+        <input class="form-control" id="disabledInput" type="text" placeholder="<%=@myinfo.email%>" disabled>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <label for="disabledInput" class="col-sm-2 control-label">아이디</label>
+    <div class="col-sm-10">
+    <input class="form-control" id="disabledInput" type="text" placeholder="<%=@myinfo.user_id%>" disabled>
+    </div>
+    </div>
+
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">핸드폰</label>
+            <div class="col-sm-10">
+            <input class="form-control" id="focusedInput" type="text" name="mphone" value="<%=@myinfo.phone%>">
+            <br>
+            <input type="submit" value="저장">
+            </div>
+        </div>
+        
+    </form>
+    </div>
+</div>

@@ -1,0 +1,368 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script></script>
+<style>
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+.primium{text-align:right;padding-right:100px;
+font color: orange;
+}
+.col-md-6{
+text-align:right;}
+
+.thumnail{float:left; width:50%;}
+.capiton{float:left; width:50%;}
+.star1{font-size: 2em; color: silver;}
+.star3{font-size: 2em; color: silver;}
+.star2{font-size: 2em; color: orange;}
+#pr{border: 5px solid orange }/*#D08F8F*/
+.thumnail{ padding:10px 20px 0px 0px}
+</style>
+
+<!--<div class="jumbotron text-center">-->
+<div>
+<img  src="<%=asset_path 'tp_index.png'%>"style="width: 100%; max-height: 500px;'"alt="Flower" class="img-responsive">
+<!--<h1>MD HOT PLACE</h1>
+<p>명동 핫플레이스를 알려드립니다</p> -->
+</div>
+<br>
+<div class="row">
+<div class="col-md-4"></div>
+<div class="col-md-4">
+<div class="row">
+<form action="/hplaces/search"> 
+<div class="col-sm-3">
+<select class="form-control" id="cate" name="cate">
+<option value="food"  selected="selected"> 맛집 </option>
+<option value="cafe" > 카페 </option>
+<option value="culture" > 문화 </option>
+</select>
+</div>
+<div class="input-group">
+<input type="text" class="form-control" placeholder="카테고리를 선택하시면 업체명으로 검색합니다" name="search">
+<div class="input-group-btn">
+<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<div class="col-md-4"></div>
+</div>
+
+<div class="container">
+<h1>상위리스트</h1>
+<h3 class="primium" style="color:#D08F8F;">primium zone</h3>
+            
+<h2>맛집</h2>  
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+<%if !@adhotfood[1].place_photo1.nil? && !@hotfood[2].place_photo1.nil? %>
+    <div class="carousel-inner"> 
+      <div class="item active">     
+        <div class="row">    
+            <%for j in 0..1%>      
+            <div class="col-sm-4" style="cursor:pointer" onclick="location.href='/hplaces/<%=@hotfood[j].id%>'">
+                <div class="thumnail">
+                <%if @hotfood[j].place_photo1.file.nil?%>
+                <img src="<%=@hotfood[j].place_photo1%>" alt="<%=@hotfood[j].place_photo1%>" style="width:100%">
+                <%else %>
+                <img src="<%=asset_path 'hplace/'+@hotfood[j].id.to_s+'/place_photo1/'+@hotfood[j].place_photo1.file.filename.to_s%>" alt="<%=@hotfood[j].place_photo1.file.filename.to_s%>" style="width:100%">
+                <%end %>
+                </div>
+                <div class="capiton">   <h2><%=@hotfood[j].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @hotfood[0].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@hotfood[0].views%></p></div>  
+            </div>              
+            <%end%>
+            <div class="col-sm-4" id="pr"style="cursor:pointer" onclick="location.href='/hplaces/<%=@adhotfood[0].id%>'">
+                <div class="thumnail">
+                <%if @adhotfood[0].place_photo1.file.nil?%>
+                <img src="<%=@adhotfood[0].place_photo1%>" alt="<%=@adhotfood[0].place_photo1%>" style="width:100%">
+                <%else %>
+                <img src="<%=asset_path 'hplace/'+@adhotfood[0].id.to_s+'/place_photo1/'+@adhotfood[0].place_photo1.file.filename.to_s%>" alt="<%=@adhotfood[0].place_photo1.file.filename.to_s%>" style="width:100%">
+                <%end %>
+                </div>
+                <div class="capiton">   <h2><%=@adhotfood[0].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @adhotfood[0].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@adhotfood[0].views%></p></div>  
+            </div>            
+        </div>
+      </div>
+<%end%>
+
+<%if !@adhotfood[2].place_photo1.nil? && !@hotfood[4].place_photo1.nil? %>
+        <%for k in 0..3%>
+        <div class="item">
+        <div class="row">    
+            <%for j in 0..1%>      
+            <div class="col-sm-4" style="cursor:pointer" onclick="location.href='/hplaces/<%=@hotfood[k+2].id%>'">
+                            <div class="thumnail">
+                <%if @hotfood[k+2].place_photo1.file.nil?%>
+                <img  alt="place_photo1" style="width:100%">
+                <%else %>
+                <img src="<%=asset_path 'hplace/'+@hotfood[k+2].id.to_s+'/place_photo1/'+@hotfood[k+2].place_photo1.file.filename.to_s%>" alt="<%=@hotfood[k+2].place_photo1.file.filename.to_s%>" style="width:100%">
+                <%end %>
+                </div>
+                <div class="capiton">   <h2><%=@hotfood[k+2].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @hotfood[k+2].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@hotfood[k+2].views%></p></div>  
+            </div>              
+            <%end%>
+
+            <div class="col-sm-4"id="pr" style="cursor:pointer" onclick="location.href='/hplaces/<%=@adhotfood[k+1].id%>'">
+                <div class="thumnail"><img src="<%=@adhotfood[k+1].place_photo1%>" alt="Fjords" style="width:100%"></div><br>
+                <div class="capiton">   <h2><%=@adhotfood[k+1].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @adhotfood[k+1].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@adhotfood[k+1].views%></p></div>  
+            </div>                     
+        </div>
+        </div>
+        <%end%>
+<%end%>    
+</div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+
+
+
+      <h2>카페</h2>  
+  <div id="myCarousel2" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel2" data-slide-to="1"></li>
+      <li data-target="#myCarousel2" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <%if !@adhotcafe[1].place_photo1.nil? && !@hotcafe[2].place_photo1.nil? %>
+    <div class="carousel-inner"> 
+      <div class="item active">     
+        <div class="row">    
+            <%for j in 0..1%>      
+            <div class="col-sm-4" style="cursor:pointer" onclick="location.href='/hplaces/<%=@hotcafe[j].id%>'">
+                <div class="thumnail">
+                <%if @hotcafe[j].place_photo1.file.nil?%>
+                <img src="<%=@hotcafe[j].place_photo1%>" alt="photo1" style="width:100%">
+                <%else %>
+                <img src="<%=asset_path 'hplace/'+@hotcafe[j].id.to_s+'/place_photo1/'+@hotcafe[j].place_photo1.file.filename.to_s%>" alt="Fjords" style="width:100%">
+                <%end %>
+                </div>
+                <div class="capiton">   <h2><%=@hotcafe[j].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @hotcafe[0].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@hotcafe[j].views%></p></div>  
+            </div>              
+            <%end%>
+            <div class="col-sm-4" id="pr" style="cursor:pointer" onclick="location.href='/hplaces/<%=@adhotcafe[0].id%>'">
+                <div class="thumnail"><img src="<%=@adhotcafe[0].place_photo1%>" alt="Fjords" style="width:100%"></div>
+                <div class="capiton">   <h2><%=@adhotcafe[0].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @adhotcafe[0].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@adhotcafe[0].views%></p></div>  
+            </div>                     
+        </div>
+      </div>
+
+      <%if !@adhotcafe[2].place_photo1.nil? && !@hotcafe[4].place_photo1.nil? %>
+        <%for k in 0..3%>
+        <div class="item">
+        <div class="row">    
+            <%for j in 0..1%>      
+            <div class="col-sm-4" style="cursor:pointer" onclick="location.href='/hplaces/<%=@hotcafe[k+2].id%>'">
+                <div class="thumnail"><img src="<%=@hotcafe[k+2].place_photo1%>" alt="Fjords" style="width:100%"></div>
+                <div class="capiton">   <h2><%=@hotcafe[k+2].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @hotcafe[k+2].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@hotcafe[k+2].views%></p></div>  
+            </div>              
+            <%end%>
+            <div class="col-sm-4" id="pr" style="cursor:pointer" onclick="location.href='/hplaces/<%=@adhotcafe[k+1].id%>'">
+                <div class="thumnail"><img src="<%=@adhotcafe[k+1].place_photo1%>" alt="Fjords" style="width:100%"></div>
+                <div class="capiton">   <h2><%=@adhotcafe[k+1].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @adhotcafe[k+1].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@adhotcafe[k+1].views%></p></div>  
+            </div>                     
+        </div>
+        </div>
+        <%end%>
+    <%end%>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel2" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel2" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+
+
+<h2>문화</h2>  
+  <div id="myCarousel3" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel3" data-slide-to="1"></li>
+      <li data-target="#myCarousel3" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+<%if !@adhotculture[1].place_photo1.nil? && !@hotculture.nil?%>
+    <div class="carousel-inner">
+   
+      <div class="item active">     
+        <div class="row">    
+            <%for j in 0..1%>      
+            <div class="col-sm-4" style="cursor:pointer" onclick="location.href='/hplaces/<%=@hotculture[j].id%>'">
+                <div class="thumnail"><img src="<%=@hotculture[j].place_photo1%>" alt="Fjords" style="width:100%"></div>
+                <div class="capiton">   <h2><%=@hotculture[j].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @hotculture[0].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@hotculture[0].views%></p></div>  
+            </div>              
+            <%end%>
+            <div class="col-sm-4"id="pr" style="cursor:pointer" onclick="location.href='/hplaces/<%=@adhotculture[0].id%>'">
+                <div class="thumnail"><img src="<%=@adhotculture[0].place_photo1%>" alt="Fjords" style="width:100%"></div>
+                <div class="capiton">   <h2><%=@adhotculture[0].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @adhotculture[0].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@adhotculture[0].views%></p></div>  
+            </div>                     
+        </div>
+      </div>
+<%end%>
+        <%for k in 0..3%>
+        <div class="item">
+        <div class="row">    
+            <%for j in 0..1%>      
+            <div class="col-sm-4" style="cursor:pointer" onclick="location.href='/hplaces/<%=@hotculture[k+2].id%>'">
+                <div class="thumnail"><img src="<%=@hotculture[k+2].place_photo1%>" alt="Fjords" style="width:100%"></div>
+                <div class="capiton">   <h2><%=@hotculture[k+2].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @hotculture[k+2].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@hotculture[k+2].views%></p></div>  
+            </div>              
+            <%end%>
+            <div class="col-sm-4"id="pr" style="cursor:pointer" onclick="location.href='/hplaces/<%=@adhotculture[k+1].id%>'">
+                <div class="thumnail"><img src="<%=@adhotculture[k+1].place_photo1%>" alt="Fjords" style="width:100%"></div>
+                <div class="capiton">   <h2><%=@adhotculture[k+1].place_name%></h2>
+                <%for i in 1..5%>
+                    <%if @adhotculture[k+1].avg_evalu.to_int < i%>
+                    <span class='glyphicon glyphicon-star-empty star3'></span>
+                    <%else%>
+                    <span class='glyphicon glyphicon-star star2'></span>
+                    <%end%>
+                <%end%>    
+                <p><i class="glyphicon glyphicon-eye-open"></i>&nbsp<%=@adhotculture[k+1].views%></p></div>  
+            </div>                     
+        </div>
+        </div>
+        <%end%>
+    
+
+
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel3" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel3" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+<%end%>  
+
+</div>
+</body>
+</html>

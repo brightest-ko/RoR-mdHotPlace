@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  place_name: MyString
+  place_address: MyString
+  place_call: MyString
+  place_site: MyString
+  site: MyString
+  optime: MyString
+  park: MyString
+  ad: MyString
+  category: MyString
+  remarks: MyString
+  intro: MyString
+
+two:
+  place_name: MyString
+  place_address: MyString
+  place_call: MyString
+  place_site: MyString
+  site: MyString
+  optime: MyString
+  park: MyString
+  ad: MyString
+  category: MyString
+  remarks: MyString
+  intro: MyString
