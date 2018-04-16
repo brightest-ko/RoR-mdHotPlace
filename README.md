@@ -14,7 +14,7 @@
 
 3. `Github` 셋팅 (안되어 있을시) [키 확인  `ls -al ~/.ssh`]
 	- ssh key 생성 `ssh-keygen -t rsa -C "YOUR@EMAIL.com"`
-	- 비밀번호 입력
+	- 생성 위치 입력 & 비밀번호 입력
 	- 생성한 키 복사 `pbcopy < ~/.ssh/id_rsa.pub`
 	- github setting page 에서 ssh key 등록
 	- `ssh -T git@github.com` 입력후 성공메세지가 뜨면 완료
@@ -24,7 +24,7 @@
 	- `rbenv rehash`
 
 5. 저장소 로컬에 clone
-	- `git clone git@github.com:Stayes/md-hot-place.git`
+	- `git clone git@github.com:brightest-ko/md-hot-place.git`
 	- `rbenv local 2.4.2`
 
 6. `gem` 설치
